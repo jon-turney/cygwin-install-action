@@ -48,11 +48,29 @@ runs:
         $platform = $platform -replace '^i686$', 'x86'
         # validate that platform is one of the expected values
         if (($platform -ne 'x86') -and ($platform -ne 'x86_64')) {
-          echo "unknown platform $platform"
-          exit 1
+          throw "Unknown platform $platform."
         }
         $setupFileName = "setup-$platform.exe"
-        Invoke-WebRequest "https://cygwin.com/$setupFileName" -OutFile C:\setup.exe
+
+        $maxRetries = 3
+        $retryCount = 0
+        $success = $false
+
+        while (-not $success -and $retryCount -lt $maxRetries) {
+          try {
+            Invoke-WebRequest -Uri "https://cygwin.com/$setupFileName" -OutFile "C:\setup.exe"
+            $success = $true
+          } catch {
+            Write-Output "Attempt $($retryCount + 1) failed. Retrying..."
+            Start-Sleep -Seconds 10
+            $retryCount++
+          }
+        }
+
+        if (-not $success) {
+          throw "Failed to download $setupFileName after $maxRetries attempts."
+        }
+
         if ((Get-Item -LiteralPath 'C:\setup.exe').Length -eq 0) {
           throw "The downloaded setup has a zero length!"
         }
@@ -136,7 +154,7 @@ runs:
         & C:\setup.exe $args | Out-Default
       shell: powershell
 
-    - if: ${{ inputs.add-to-path  == 'true' }}
+    - if: ${{ inputs.add-to-path == 'true' }}
       run: echo "${{ inputs.install-dir }}\bin" >> $env:GITHUB_PATH
       shell: powershell
 
