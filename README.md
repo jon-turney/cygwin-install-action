@@ -29,6 +29,7 @@ Parameters
 | add-to-path         | true                                         | Whether to add Cygwin's `/bin` directory to the system `PATH`
 | allow-test-packages | false                                        | Consider package versions marked test for installation
 | check-hash          | true                                         | Whether to check the hash of the downloaded Cygwin installer.
+| check-installer-sig | true                                         | Whether to check the CodeSign signature of the downloaded Cygwin installer.
 | work-vol            | D:                                           | Volume on which to store setup and packages, and install Cygwin.
 
 Line endings
