@@ -77,7 +77,7 @@ runs:
           $maxRetries = 5
           $retryCount = 0
           $success = $false
-          $delay = 2
+          $delay = 60
 
           while (-not $success -and $retryCount -lt $maxRetries) {
             try {
@@ -87,7 +87,7 @@ runs:
               Write-Output "Attempt $($retryCount + 1) failed. Retrying..."
               Start-Sleep -Seconds $delay
               $retryCount++
-              $delay += $delay
+              $delay += 60
             }
           }
 
