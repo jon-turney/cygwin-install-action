@@ -119,9 +119,9 @@ runs:
         }
 
         $signature = Get-AuthenticodeSignature -FilePath $setupExe
-        echo "$setupFileName signature: valid: $(signature.valid) fingerprint: $(signature.SignerCertificate.Thumbprint)"
+        echo "$setupFileName signature: status: $($signature.Status) fingerprint: $($signature.SignerCertificate.Thumbprint)"
         # XXX: this should check against a list of fingerprints for valid certs we have used
-        if (!$signature.valid -or $signature.SignerCertificate.Thumbprint -ne '7C470FD5026C30AA594D5D3782A060DDFFA0D1FD') {
+        if (!$signature.Status -or $signature.SignerCertificate.Thumbprint -ne '7C470FD5026C30AA594D5D3782A060DDFFA0D1FD') {
           if ('${{ inputs.check-installer-sig }}' -eq 'true') {
               throw "Invalid CodeSign signature on the downloaded setup!"
           }
