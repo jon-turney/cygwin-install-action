@@ -7,7 +7,7 @@ $platform = Get-Validated-Platform -Platform "$env:inputs_platform"
 $vol = Get-Validated-Work-Volume -WorkVolume "$env:inputs_work_vol"
 
 $setupExe = "$vol\setup.exe"
-$setupFileName = "setup-$platform.exe"
+$setupFileName = "setup/setup-2.938.$platform.exe"
 Invoke-WebRequest-With-Retry "https://cygwin.com/$setupFileName" $setupExe
 
 if ((Get-Item -LiteralPath $setupExe).Length -eq 0) {
@@ -54,13 +54,22 @@ $pkg_list = $pkg_list | % { $_.Trim() }
 $pkg_list = $pkg_list | % { $_.Trim(',') }
 
 $args = @(
- '-qnO',
+ '-qn',
  '-l', "$packageDir",
  '-R', "$installDir"
 )
 
 if ( "$env:inputs_allow_test_packages" -eq 'true' ) {
     $args += '-t' # --allow-test-packages
+}
+
+# if no sites are specified, also use --auto-site
+# (still adding the default --site option as a fallback if that fails)
+if ("$env:inputs_site" -eq '' ) {
+  $args += '--auto-site'
+  $args += '--verbose'
+} else {
+  $args += '--only-site'  # don't fetch mirror list
 }
 
 $site_list = Get-Validated-Sites -Platform "$platform" -Sites "$env:inputs_site"
