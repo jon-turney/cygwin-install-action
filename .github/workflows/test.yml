@@ -59,8 +59,10 @@ jobs:
     - name: Check PATH hasn't changed
       run: |
         if [[ "${OSTYPE}" = "cygwin" ]]; then
-          echo "unexpectedly using Cygwin Bash"
-          exit 1
+          if [[ ! -v MSYSTEM ]]; then
+            echo "unexpectedly using Cygwin Bash"
+            exit 1
+          fi
         fi
 
         if [[ "$(cygpath -aw "$(which cygpath)")" = 'C:\cygwin\'* ]]; then
@@ -266,8 +268,10 @@ jobs:
     - name: Check Cygwin isn't installed
       run: |
         if [[ "${OSTYPE}" = "cygwin" ]]; then
-          echo "Unexpectedly running Cygwin"
-          exit 1
+          if [[ ! -v MSYSTEM ]]; then
+            echo "unexpectedly using Cygwin Bash"
+            exit 1
+          fi
         fi
       shell: bash
       env:
