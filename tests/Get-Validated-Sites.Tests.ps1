@@ -5,8 +5,8 @@ BeforeAll {
 Describe 'Get-Validated-Sites' {
     Context 'Platform defaults' {
         It 'Default (x86_64)' {
-            $sites = Get-Validated-Sites
-            Should -ActualValue $sites -Be @( 'https://mirrors.kernel.org/sourceware/cygwin/' )
+            Get-Validated-Sites | Should -Be @( 'https://mirrors.kernel.org/sourceware/cygwin/',
+                                                'https://mirrors.tencent.com/cygwin/' )
         }
         It 'x86' {
             $sites = Get-Validated-Sites -Platform 'x86'

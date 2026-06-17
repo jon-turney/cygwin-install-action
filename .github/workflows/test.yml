@@ -297,6 +297,25 @@ jobs:
     - name: Run test shell script
       run: C:\cygwin\bin\bash.exe /cygwin-install-action-test.sh
 
+  bad-sites-fallback:
+    runs-on: windows-latest
+    name: 'Test fallback from a bad site'
+
+    steps:
+    - run: git config --global core.autocrlf input
+
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+    - name: Install Cygwin
+      uses: ./
+      with:
+        site: |
+          http://mirror.invalid/cygwin/
+          http://mirrors.kernel.org/sourceware/cygwin/
+
+    - name: Run test shell script
+      run: bash tests/script.sh
+
   outputs-test:
     runs-on: windows-latest
 

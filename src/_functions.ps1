@@ -32,7 +32,8 @@ function Get-Validated-Sites {
         switch ("$Platform") {
             'x86'   { return @( 'https://mirrors.kernel.org/sourceware/cygwin-archive/20221123' ) }
             # This is the default site for x86_64 platforms.
-            default { return @( 'https://mirrors.kernel.org/sourceware/cygwin/' ) }
+            default { return @( 'https://mirrors.kernel.org/sourceware/cygwin/',
+                                'https://mirrors.tencent.com/cygwin/' ) }
         }
     }
 
