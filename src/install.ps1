@@ -7,7 +7,15 @@ $platform = Get-Validated-Platform -Platform "$env:inputs_platform"
 $vol = Get-Validated-Work-Volume -WorkVolume "$env:inputs_work_vol"
 
 $setupExe = "$vol\setup.exe"
-$setupFileName = "setup/setup-2.940.$platform.exe"
+
+# (Currently, no aarch64 build of the installer exists)
+if ($platform -eq 'aarch64') {
+  $installerArch = "x86_64"
+} else {
+  $installerArch = "$platform"
+}
+$setupFileName = "setup/setup-2.940.$installerArch.exe"
+
 Invoke-WebRequest-With-Retry "https://cygwin.com/$setupFileName" $setupExe
 
 if ((Get-Item -LiteralPath $setupExe).Length -eq 0) {
@@ -56,7 +64,8 @@ $pkg_list = $pkg_list | % { $_.Trim(',') }
 $args = @(
  '-qnO',
  '-l', "$packageDir",
- '-R', "$installDir"
+ '-R', "$installDir",
+ '--arch', "$platform"
 )
 
 if ( "$env:inputs_allow_test_packages" -eq 'true' ) {

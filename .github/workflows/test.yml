@@ -4,22 +4,27 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: windows-latest
     strategy:
        matrix:
          include:
            - platform: 'x86_64'
+             runner: windows-latest
            - platform: 'x86'
+             runner: windows-latest
              packages: >-
                coreutils
                moreutils
            - platform: 'amd64'
+             runner: windows-latest
              packages: |
                coreutils,
                moreutils
+           - platform: 'aarch64'
+             runner: windows-11-arm
        fail-fast: false
 
     name: 'Test ${{ matrix.platform }}'
+    runs-on: ${{ matrix.runner }}
 
     steps:
     - run: git config --global core.autocrlf input
