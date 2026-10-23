@@ -7,7 +7,7 @@ $platform = Get-Validated-Platform -Platform "$env:inputs_platform"
 $vol = Get-Validated-Work-Volume -WorkVolume "$env:inputs_work_vol"
 
 $setupExe = "$vol\setup.exe"
-$setupFileName = "setup-$platform.exe"
+$setupFileName = "setup/setup-2.940.$platform.exe"
 Invoke-WebRequest-With-Retry "https://cygwin.com/$setupFileName" $setupExe
 
 if ((Get-Item -LiteralPath $setupExe).Length -eq 0) {

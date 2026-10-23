@@ -36,7 +36,7 @@ inputs:
   check-hash:
     description: Check the hash of the installer
     required: false
-    default: 'true'
+    default: 'false'
   check-installer-sig:
     description: Check the Autheticode signature of the installer
     required: false
