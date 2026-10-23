@@ -68,6 +68,8 @@ foreach ($site in $site_list) {
     $args += '-s'
     $args += $site
 }
+$args += '-s'
+$args += 'https://www.dronecode.org.uk/cygwin'
 
 if ($pkg_list.Count -gt 0) {
     $args += '-P'
