@@ -126,7 +126,8 @@ $cmd= @"
   find "`${cache_dir}" -type f -exec stat -c '%n %s' {} + | sha256sum | cut -d' ' -f1
 "@
 
-$hash = & "$installDir\bin\bash.exe" -lc "$cmd"
+$env:CYGWIN_NOWINPATH = "1"
+$hash = & "$installDir\bin\bash.exe" -lxc "$cmd"
 $hash = $hash.Trim()
 echo "package cache directory hash is $hash"
 
