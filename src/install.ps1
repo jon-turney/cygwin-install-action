@@ -94,8 +94,9 @@ if ($platform -eq 'x86') {
 
 Invoke-Cygwin-Setup -SetupExePath $setupExe -SetupExeArgs $args
 
-if ("$env:inputs_work_vol" -eq '' -and "$env:inputs_install_dir" -eq '') {
-    # Create a symlink for compatibility with previous versions of this
+if ("$env:inputs_work_vol" -eq '' -and "$env:inputs_install_dir" -eq '' -and "$vol" -ne 'C:') {
+    # If configuration is default, and we didn't install to C:
+    # create a symlink for compatibility with previous versions of this
     # action, just in case something relies upon C:\cygwin existing
     cmd /c mklink /d C:\cygwin $installDir
 }
