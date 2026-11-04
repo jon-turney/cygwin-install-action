@@ -84,7 +84,7 @@ jobs:
 
     defaults:
       run:
-        shell: C:\cygwin\bin\bash.exe --noprofile --norc -o igncr -eo pipefail '{0}'
+        shell: bash --noprofile --norc -o igncr -eo pipefail '{0}'
 
     steps:
     - run: git config --global core.autocrlf input
@@ -238,7 +238,7 @@ jobs:
     - name: Check cygwin version
       run: |
         cygcheck -cd cygwin | grep -qF 3.1.7-1
-      shell: C:\cygwin\bin\bash.exe --noprofile --norc -o igncr -eo pipefail '{0}'
+      shell: bash --noprofile --norc -o igncr -eo pipefail '{0}'
 
   bad-sig:
     runs-on: windows-latest
@@ -295,7 +295,7 @@ jobs:
         pubkeys: ${{ github.workspace }}\tests\repo\key.pub
 
     - name: Run test shell script
-      run: C:\cygwin\bin\bash.exe /cygwin-install-action-test.sh
+      run: bash /cygwin-install-action-test.sh
 
   outputs-test:
     runs-on: windows-latest
