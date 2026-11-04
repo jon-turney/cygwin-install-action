@@ -45,16 +45,16 @@ jobs:
 
     - name: Single-line inline shell
       run: echo "Running in $(pwd)"
-      shell: bash.exe '{0}'
+      shell: cmd /c bash.exe '{0}'
 
     - name: Multiline inline shell
       run: >-
         echo "Running in $(pwd)" &&
         true
-      shell: bash.exe '{0}'
+      shell: cmd /c bash.exe '{0}'
 
     - name: Shell script
-      run: bash.exe tests/script.sh
+      run: cmd /c bash.exe tests/script.sh
 
     - name: Check requested packages got installed
       run: sponge.exe tmp
