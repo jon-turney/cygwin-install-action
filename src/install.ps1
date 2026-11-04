@@ -116,7 +116,7 @@ if ("$env:inputs_add_to_path" -eq 'true') {
 }
 
 # run login shell to copy skeleton profile files
-& "$installDir\bin\bash.exe" --login
+& cmd /c "$installDir\bin\bash.exe" --login
 
 # set outputs
 echo "setup=$setupExe" >> $env:GITHUB_OUTPUT
